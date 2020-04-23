@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { getTodos } from "../Redux/Actions/ActionApi";
-import { getAbout, postAbout } from "../Redux/Actions/ActionMock";
+import { getAbout, postAbout, deleteAbout } from "../Redux/Actions/ActionMock";
 
 const DataApi = (props) => {
   //   console.log("props1", props);
@@ -22,7 +22,11 @@ const DataApi = (props) => {
     props.postAbout(newAbout);
     // console.log(newAbout);
   };
-  //   console.log("props about", props.about);
+
+  const handleDelete = (id) => {
+    props.deleteAbout(id);
+  };
+  // console.log("props about", props.about);
 
   useEffect(() => {
     props.getTodos();
@@ -54,9 +58,18 @@ const DataApi = (props) => {
       </form>
       <ul>
         {props.about.map((item, index) => (
-          <li key={index}>
-            {item.id}. {item.name}
-          </li>
+          <div key={index}>
+            <li>
+              {item.id}. {item.name}
+            </li>
+            <button
+              onClick={() => {
+                handleDelete(item.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         ))}
       </ul>
     </div>
@@ -64,7 +77,7 @@ const DataApi = (props) => {
 };
 
 const mapStateToProps = (props) => {
-  //   console.log("props", props);
+  console.log("props", props);
   return {
     todos: props.getTodos.data,
     about: props.getAbout.data,
@@ -76,6 +89,7 @@ const mapDispatchToProps = (dispatch) => {
     getTodos: () => dispatch(getTodos()),
     getAbout: () => dispatch(getAbout()),
     postAbout: (obj) => dispatch(postAbout(obj)),
+    deleteAbout: (id) => dispatch(deleteAbout(id)),
   };
 };
 

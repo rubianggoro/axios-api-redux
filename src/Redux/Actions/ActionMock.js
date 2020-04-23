@@ -45,3 +45,14 @@ export const postAbout = (obj) => {
       .catch((error) => dispatch(getDataFailed(error.massage)));
   };
 };
+
+export const deleteAbout = (id) => {
+  return (dispatch) => {
+    dispatch(getDataBegin());
+
+    axios
+      .delete(`https://5e9ee7cefb467500166c49bb.mockapi.io/about/${id}`)
+      .then(() => dispatch(getAbout()))
+      .catch((error) => dispatch(getDataFailed(error.massage)));
+  };
+};
